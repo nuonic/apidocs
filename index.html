@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>API Reference</title>
 
-    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
-    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
     <style>
       .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
@@ -88,10 +86,12 @@
   color: #90a959;
 }
     </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -104,6 +104,7 @@
               <a href="#" data-language-name="shell">shell</a>
               <a href="#" data-language-name="ruby">ruby</a>
               <a href="#" data-language-name="python">python</a>
+              <a href="#" data-language-name="javascript">javascript</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -112,7 +113,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='#'>Sign Up for a Nuonic account</a></li>
             <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
@@ -121,59 +122,69 @@
       <div class="content">
         <h1 id="introduction">Introduction</h1>
 
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Welcome to the Kids Health API! You can use our API to access Kids Health API endpoints which provide the latest data on a range of consumption and health metrics for primary school age children across Australia.</p>
 
-<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>We have language bindings in Shell, Ruby, C#, Java, Javascript and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&rsquo;s documentation.</p>
+<p>This API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>. Thanks to Robert Lord for creating this awesome tool.</p>
 
 <h1 id="authentication">Authentication</h1>
 
 <blockquote>
 <p>To authorize, use this code:</p>
 </blockquote>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'nuonic'</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
+<span class="n">api</span> <span class="o">=</span> <span class="no">Nuonic</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'my-api-key'</span><span class="p">)</span>
 </code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">nuonic</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">nuonic</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'my-api-key'</span><span class="p">)</span>
+
 </code></pre>
 <pre class="highlight shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
+curl <span class="s2">"https://api.nuonic.com.au/auth"</span>
+  -H <span class="s2">"Authorization: my-api-key"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kr">const</span> <span class="nx">nuonic</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'nuonic'</span><span class="p">);</span>
+
+<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">nuonic</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'my-api-key'</span><span class="p">);</span>
 </code></pre>
 
 <blockquote>
-<p>Make sure to replace <code class="prettyprint">meowmeowmeow</code> with your API key.</p>
+<p>Make sure to replace <code class="prettyprint">my-api-key</code> with your API key.</p>
 </blockquote>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>Nuonic APIs use JWT API keys to allow access to the API. You can obtain a Nuonic API key by <a href="http://www.nuonic.com.au/signup">signing up </a> for a Nuonic account.</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p>Nuonic expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
 
-<p><code class="prettyprint">Authorization: meowmeowmeow</code></p>
+<p><code class="prettyprint">Authorization: my-api-key</code></p>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Replace <code>my-api-key</code> with your Nuonic API key.
 </aside>
 
-<h1 id="kittens">Kittens</h1>
+<h1 id="nutrient-profile-api">Nutrient Profile API</h1>
 
-<h2 id="get-all-kittens">Get All Kittens</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h2 id="summary-by-location">Summary by location</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'nuonic'</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
+<span class="n">api</span> <span class="o">=</span> <span class="no">Nuonic</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'my-api-key'</span><span class="p">)</span>
+<span class="n">api</span><span class="p">.</span><span class="nf">nuonic</span><span class="p">.</span><span class="nf">get</span>
 </code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">nuonic</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">nuonic</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'my-api-key'</span><span class="p">)</span>
+<span class="n">api</span><span class="o">.</span><span class="n">nuonic</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 </code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
+<pre class="highlight shell"><code>curl <span class="s2">"http://api.nuonic.com.au/kids_health/summary_by_location"</span>
+  -H <span class="s2">"Authorization: my-api-key"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kr">const</span> <span class="nx">nuonic</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'nuonic'</span><span class="p">);</span>
+
+<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">nuonic</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'my-api-key'</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">nuonic</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">nuonic</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
 </code></pre>
 
 <blockquote>
@@ -181,27 +192,25 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 </blockquote>
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="nt">"number_schools"</span><span class="p">:</span><span class="w"> </span><span class="mi">1103</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"number_students"</span><span class="p">:</span><span class="w"> </span><span class="mi">23847</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"number_orders"</span><span class="p">:</span><span class="w"> </span><span class="mi">25738</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"number_items"</span><span class="p">:</span><span class="w"> </span><span class="mi">104753</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"protein_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">19.23</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"carbohydrates_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">26.53</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"sugar_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">18.43</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"sodium_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.54</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"saturated_fat_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">23.26</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"unsaturated_fat_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">16.34</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 
-<p>This endpoint retrieves all kittens.</p>
+<p>This endpoint returns a high-level nutrient consumption profile for a specified time period and location. The profile is an average across all students who transacted (purchased food items) in the period.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">GET http://example.com/api/kittens</code></p>
+<p><code class="prettyprint">GET http://api.nuonic.com.au/kids_health/summary_by_location</code></p>
 
 <h3 id="query-parameters">Query Parameters</h3>
 
@@ -213,67 +222,90 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
+<td>location_type</td>
+<td>country</td>
+<td>The type of location to aggregate to. One of (&lsquo;country&rsquo;, &#39;school&rsquo;, &#39;postcode&rsquo;, &#39;region&rsquo;, &#39;state&rsquo;).</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>location_name</td>
+<td>Australia</td>
+<td>The location name as a string. For example one of (&#39;The Southport School&rsquo;, &#39;4215&rsquo;, &#39;South East Queensland&rsquo;, &#39;Queensland&rsquo;).</td>
+</tr>
+<tr>
+<td>time_period</td>
+<td>day</td>
+<td>The time period to aggregate over. One of (&#39;day&rsquo;, &#39;week&rsquo;, &#39;month&rsquo;, &#39;year&rsquo;).</td>
+</tr>
+<tr>
+<td>end_date</td>
+<td>yesterday&rsquo;s date</td>
+<td>The end date of the time period in the form &#39;yyyy-mm-dd&rsquo;.</td>
+</tr>
+<tr>
+<td>number_periods</td>
+<td>1</td>
+<td>The number of time periods to return results for, up to a maximum of 12.</td>
 </tr>
 </tbody></table>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-<h2 id="get-a-specific-kitten">Get a Specific Kitten</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre>
-
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can&rsquo;t use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">GET http://example.com/kittens/&lt;ID&gt;</code></p>
-
-<h3 id="url-parameters">URL Parameters</h3>
+<h3 id="response-fields">Response Fields</h3>
 
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Field</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>number_schools</td>
+<td>Int</td>
+<td>The number of schools within the location that data is sourced from.</td>
+</tr>
+<tr>
+<td>number_students</td>
+<td>Int</td>
+<td>The number of students at the schools who transacted in the requested period.</td>
+</tr>
+<tr>
+<td>number_orders</td>
+<td>Int</td>
+<td>The number of meal orders by the students at the schools who transacted in the requested period.</td>
+</tr>
+<tr>
+<td>number_items</td>
+<td>Int</td>
+<td>The number of food items ordered by the students at the schools who transacted in the requested period.</td>
+</tr>
+<tr>
+<td>protein_g</td>
+<td>Float</td>
+<td>The average amount of protein consumed by all students in the specified subset in g.</td>
+</tr>
+<tr>
+<td>carbohydrates_g</td>
+<td>Float</td>
+<td>The average amount of carbohydrates consumed by all students in the specified subset in g.</td>
+</tr>
+<tr>
+<td>sugar_g</td>
+<td>Float</td>
+<td>The average amount of sugar consumed by all students in the specified subset in g.</td>
+</tr>
+<tr>
+<td>sodium_g</td>
+<td>Float</td>
+<td>The average amount of sodium (salt) consumed by all students in the specified subset in g.</td>
+</tr>
+<tr>
+<td>saturated_fat_g</td>
+<td>Float</td>
+<td>The average amount of saturated fat consumed by all students in the specified subset in g.</td>
+</tr>
+<tr>
+<td>unsaturated_fat_g</td>
+<td>Float</td>
+<td>The average amount of unsaturated fat consumed by all students in the specified subset in g.</td>
 </tr>
 </tbody></table>
 
@@ -341,6 +373,7 @@ Remember — a happy kitten is an authenticated kitten!
                 <a href="#" data-language-name="shell">shell</a>
                 <a href="#" data-language-name="ruby">ruby</a>
                 <a href="#" data-language-name="python">python</a>
+                <a href="#" data-language-name="javascript">javascript</a>
           </div>
       </div>
     </div>
