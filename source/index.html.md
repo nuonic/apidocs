@@ -145,3 +145,113 @@ sugar_g | Float | The average amount of sugar consumed by all students in the sp
 sodium_g | Float | The average amount of sodium (salt) consumed by all students in the specified subset in g.
 saturated_fat_g | Float | The average amount of saturated fat consumed by all students in the specified subset in g.
 unsaturated_fat_g | Float | The average amount of unsaturated fat consumed by all students in the specified subset in g.
+
+
+
+
+
+
+
+# National School Register API
+
+## Summary by location
+
+```ruby
+require 'nuonic'
+
+api = Nuonic::APIClient.authorize!('my-api-key')
+api.nuonic.get
+```
+
+```python
+import nuonic
+
+api = nuonic.authorize('my-api-key')
+api.nuonic.get()
+```
+
+```shell
+curl "http://api.nuonic.com.au/kids_health/summary_by_location"
+  -H "Authorization: my-api-key"
+```
+
+```javascript
+const nuonic = require('nuonic');
+
+let api = nuonic.authorize('my-api-key');
+let nuonic = api.nuonic.get();
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "government_id"      : 1042,
+    "id_name"            : 2973,
+    "name"               : "Merrimac State High School",
+    "level_of_schooling" : "State School",
+    "year_ranges"        : "Year 7 - 12",
+    "gender"             : "Coed",
+    "sector"             : "Government",
+    "teaching_staff"     : 71,
+    "non_teaching_staff" : 24,
+    "total_enrolments"   : 1076,
+    "phone_number"       : 6155747745,
+    "fax_number"         : 6155747745,
+    "email"              : "info@merrimacshs.gov.au",
+    "url"                : "www.merrimacshs.gov.au",
+    "electorate"         : "Moncriff",
+    "federal_electorate" : "federal_electorate",
+    "address"            : "Dunlop Ct",
+    "suburb"             : "Mermaid Waters",
+    "state"              : "QLD",
+    "postcode"           : 4218,
+    "latitude"           : -28.039860999999998,
+    "longitude"          : 153.417609999999996,
+    "year_evaluated:"    : 2016
+  }
+]
+```
+
+This endpoint returns a school profile based on the user input, with the capability of finding all schools listed in Australia. 
+
+### HTTP Request
+
+`GET http://api.nuonic.com.au/kids_health/summary_by_location`
+
+### Query Parameters
+
+Parameter | Description
+--------- | -----------
+state   | Find all schools in a given Australian state.
+suburb  | Find all schools in a given Australian suburb.
+name    | Find a particular school based on a speciifc given name.
+
+### Response Fields
+
+Field | Type | Description
+--------- | ------- | -----------
+government_id      | varchar | The local government/private issued identication number
+id_name            | int     | Identifies the name of the identication provider
+name               | varchar | The schools name
+level_of_schooling | varchar | Highest level of schooling year
+year_ranges        | varchar | What year range a school has
+gender             | varchar | States the gender of each school
+sector             | varchar | Identifies the school sector as public or private
+teaching_staff     | int     | Total amount of teaching staff at each school
+non_teaching_staff | int     | Total amount of non-teaching staff at each school
+total_enrolments   | int     | Total amount of enrolled students at each school
+phone_number       | varchar | The schools phones number
+fax_number         | varchar | The schools fax number
+email              | varchar | The schools email address
+url                | varchar | The schools website
+electorate         | varchar | The local electorate 
+federal_electorate | varchar | The federal electorate 
+address            | varchar | The schools address
+suburb             | varchar | The schools suburb
+state              | varchar | The schools state
+postcode           | int     | The schools post-code
+latitude           | numeric | Latitude position of the school
+longitude          | numeric | Longitude position of the school
+year_evaluated:    | int     | Government year evaluation of the schools
