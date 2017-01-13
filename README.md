@@ -14,9 +14,9 @@ You're going to need:
 
 ### Getting Set Up
 
-2. Clone this repo to your local machine
-3. `cd apidocs`
-4. Initialize and start the local server:
+1. Clone this repo to your local machine
+2. `cd apidocs`
+3. Initialize and start the local server:
 
 ```shell
 bundle install
@@ -25,4 +25,7 @@ bundle exec middleman server
 
 You can now see the docs at http://localhost:4567. Whoa! That was fast!
 
+### Deploying changes
 
+1. Merge your branch into `master`
+2. `./deploy`
