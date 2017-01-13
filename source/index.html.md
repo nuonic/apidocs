@@ -326,3 +326,119 @@ Field | Type | Description
 --------- | ------- | -----------
 id | Int | Our ID number for the attribute
 name | String | The name of the attribute
+
+# Schools API
+
+## Search
+
+```ruby
+require 'nuonic'
+
+api = Nuonic::APIClient.authorize!('my-api-key')
+api.nuonic.get
+```
+
+```python
+import requests
+
+headers = {
+    "x-api-key": "my-api-key",
+    "Content-Type": "application/json",
+}
+
+url = 'https://api.nuonic.com.au/schools/v1/search?state=QLD&suburb=mermaid%20waters&name=merrimac%20high'
+
+r = requests.get(url=url, headers=headers)
+
+print(r.json())
+```
+
+```shell
+curl "https://api.nuonic.com.au/schools/v1/search?state=QLD&suburb=mermaid%20waters&name=merrimac%20high"
+  -H "Authorization: my-api-key" -H "Content-Type: application/json"
+```
+
+```javascript
+const nuonic = require('nuonic');
+
+let api = nuonic.authorize('my-api-key');
+let nuonic = api.nuonic.get();
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "government_id": 1042,
+    "id_name": 2973,
+    "name": "Merrimac State High School",
+    "level_of_schooling": "State School",
+    "year_ranges": "Year 7 - 12",
+    "gender": "Coed",
+    "sector": "Government",
+    "teaching_staff": 71,
+    "non_teaching_staff": 24,
+    "total_enrolments": 1076,
+    "phone_number": 6155747745,
+    "fax_number": 6155747745,
+    "email": "info@merrimacshs.gov.au",
+    "url": "www.merrimacshs.gov.au",
+    "electorate": "Moncriff",
+    "federal_electorate": "federal_electorate",
+    "address": "Dunlop Ct",
+    "suburb": "Mermaid Waters",
+    "state": "QLD",
+    "postcode": 4218,
+    "latitude": -28.039860999999998,
+    "longitude": 153.417609999999996,
+    "year_evaluated": 2016
+  }
+]
+```
+
+This endpoint returns a school profile based on use search terms State, Suburb and Name. If there are multiple results the API will return the top 5 (this may be changed in the future). If Name is specified the API will find the item with the closest name to the input using natural language processing to resolve the components (eg State, High, Saint) and identify the best match in our database.
+
+Note that not all data attributes are available for all schools. Where an attribute is not available in our database it will not be returned in the results. 
+
+### HTTP Request
+
+`GET https://api.nuonic.com.au/schools/v1/search?state={state}&suburb={suburb}&name={name}`
+
+<aside class="notice">Replace {state}, {suburb} and {name} with the State, Suburb and Name of the school you are looking for. Note that some of these parameters are optional</aside>
+
+### Query Parameters
+
+Parameter | Description | Optional
+--------- | ----------- | --------
+state   | Filter results for State. Must be the exact State name. | True
+suburb  | Filter results for Suburb. Must be the exact Suburb name | True
+name    | Filter by school Name. Can be approximate. The API will find the nearest match to your input text | True
+
+### Response Fields
+
+Field | Type | Description
+--------- | ------- | -----------
+government_id      | String  | The local government/private issued identication number
+id_name            | Integer | Identifies the name of the identication provider
+name               | String  | The schools name
+level_of_schooling | String  | Highest level of schooling year
+year_ranges        | String  | What year range a school has
+gender             | String  | States the gender of each school
+sector             | String  | Identifies the school sector as public or private
+teaching_staff     | Integer | Total amount of teaching staff at each school
+non_teaching_staff | Integer | Total amount of non-teaching staff at each school
+total_enrolments   | Integer | Total amount of enrolled students at each school
+phone_number       | String  | The schools phones number
+fax_number         | String  | The schools fax number
+email              | String  | The schools email address
+url                | String  | The schools website
+electorate         | String  | The local electorate 
+federal_electorate | String  | The federal electorate 
+address            | String  | The schools address
+suburb             | String  | The schools suburb
+state              | String  | The schools state
+postcode           | Integer | The schools post-code
+latitude           | Float   | Latitude position of the school
+longitude          | Float   | Longitude position of the school
+year_evaluated:    | DateTime| Government year evaluation of the schools
