@@ -187,29 +187,29 @@ let nuonic = api.nuonic.get();
 ```json
 [
   {
-    "government_id"      : 1042,
-    "id_name"            : 2973,
-    "name"               : "Merrimac State High School",
+    "government_id" : 1042,
+    "id_name" : 2973,
+    "name" : "Merrimac State High School",
     "level_of_schooling" : "State School",
-    "year_ranges"        : "Year 7 - 12",
-    "gender"             : "Coed",
-    "sector"             : "Government",
-    "teaching_staff"     : 71,
+    "year_ranges" : "Year 7 - 12",
+    "gender" : "Coed",
+    "sector" : "Government",
+    "teaching_staff" : 71,
     "non_teaching_staff" : 24,
-    "total_enrolments"   : 1076,
-    "phone_number"       : 6155747745,
-    "fax_number"         : 6155747745,
-    "email"              : "info@merrimacshs.gov.au",
-    "url"                : "www.merrimacshs.gov.au",
-    "electorate"         : "Moncriff",
+    "total_enrolments" : 1076,
+    "phone_number" : 6155747745,
+    "fax_number" : 6155747745,
+    "email" : "info@merrimacshs.gov.au",
+    "url" : "www.merrimacshs.gov.au",
+    "electorate" : "Moncriff",
     "federal_electorate" : "federal_electorate",
-    "address"            : "Dunlop Ct",
-    "suburb"             : "Mermaid Waters",
-    "state"              : "QLD",
-    "postcode"           : 4218,
-    "latitude"           : -28.039860999999998,
-    "longitude"          : 153.417609999999996,
-    "year_evaluated:"    : 2016
+    "address" : "Dunlop Ct",
+    "suburb" : "Mermaid Waters",
+    "state" : "QLD",
+    "postcode" : 4218,
+    "latitude" : -28.039860999999998,
+    "longitude" : 153.417609999999996,
+    "year_evaluated" : 2016
   }
 ]
 ```
@@ -232,26 +232,26 @@ name    | Find a particular school based on a speciifc given name.
 
 Field | Type | Description
 --------- | ------- | -----------
-government_id      | varchar | The local government/private issued identication number
-id_name            | int     | Identifies the name of the identication provider
-name               | varchar | The schools name
-level_of_schooling | varchar | Highest level of schooling year
-year_ranges        | varchar | What year range a school has
-gender             | varchar | States the gender of each school
-sector             | varchar | Identifies the school sector as public or private
-teaching_staff     | int     | Total amount of teaching staff at each school
-non_teaching_staff | int     | Total amount of non-teaching staff at each school
-total_enrolments   | int     | Total amount of enrolled students at each school
-phone_number       | varchar | The schools phones number
-fax_number         | varchar | The schools fax number
-email              | varchar | The schools email address
-url                | varchar | The schools website
-electorate         | varchar | The local electorate 
-federal_electorate | varchar | The federal electorate 
-address            | varchar | The schools address
-suburb             | varchar | The schools suburb
-state              | varchar | The schools state
-postcode           | int     | The schools post-code
-latitude           | numeric | Latitude position of the school
-longitude          | numeric | Longitude position of the school
-year_evaluated:    | int     | Government year evaluation of the schools
+government_id      | String  | The local government/private issued identication number
+id_name            | Integer | Identifies the name of the identication provider
+name               | String  | The schools name
+level_of_schooling | String  | Highest level of schooling year
+year_ranges        | String  | What year range a school has
+gender             | String  | States the gender of each school
+sector             | String  | Identifies the school sector as public or private
+teaching_staff     | Integer | Total amount of teaching staff at each school
+non_teaching_staff | Integer | Total amount of non-teaching staff at each school
+total_enrolments   | Integer | Total amount of enrolled students at each school
+phone_number       | String  | The schools phones number
+fax_number         | String  | The schools fax number
+email              | String  | The schools email address
+url                | String  | The schools website
+electorate         | String  | The local electorate 
+federal_electorate | String  | The federal electorate 
+address            | String  | The schools address
+suburb             | String  | The schools suburb
+state              | String  | The schools state
+postcode           | Integer | The schools post-code
+latitude           | Float   | Latitude position of the school
+longitude          | Float   | Longitude position of the school
+year_evaluated:    | DateTime| Government year evaluation of the schools
