@@ -113,7 +113,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Nuonic account</a></li>
+            <li><a href='https://www.nuonic.com.au/contact/'>Access our APIs</a></li>
             <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
@@ -122,11 +122,9 @@
       <div class="content">
         <h1 id="introduction">Introduction</h1>
 
-<p>Welcome to the Kids Health API! You can use our API to access Kids Health API endpoints which provide the latest data on a range of consumption and health metrics for primary school age children across Australia.</p>
+<p>Welcome Nuonic&rsquo;s API documentation. You can use our REST APIs to access Nuonic data and analytic services. Please visit our <a href="https://www.nuonic.com.au">website</a> or <a href="https://www.nuonic.com.au/contact">contact us</a> to learn more about our products and pricing.</p>
 
-<p>We have language bindings in Shell, Ruby, C#, Java, Javascript and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
-
-<p>This API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>. Thanks to Robert Lord for creating this awesome tool.</p>
+<p>You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
 
 <h1 id="authentication">Authentication</h1>
 
@@ -155,62 +153,124 @@ curl <span class="s2">"https://api.nuonic.com.au/auth"</span>
 <p>Make sure to replace <code class="prettyprint">my-api-key</code> with your API key.</p>
 </blockquote>
 
-<p>Nuonic APIs use JWT API keys to allow access to the API. You can obtain a Nuonic API key by <a href="http://www.nuonic.com.au/signup">signing up </a> for a Nuonic account.</p>
+<p>Nuonic APIs use API keys provided to customers to allow access to the API. </p>
 
-<p>Nuonic expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p>The API key must be included in all API requests to the server in a header that looks like this:</p>
 
-<p><code class="prettyprint">Authorization: my-api-key</code></p>
+<p><code class="prettyprint">x-api-key: my-api-key</code></p>
 
 <aside class="notice">
 Replace <code>my-api-key</code> with your Nuonic API key.
 </aside>
 
-<h1 id="nutrient-profile-api">Nutrient Profile API</h1>
+<h1 id="food-api">Food API</h1>
 
-<h2 id="summary-by-location">Summary by location</h2>
-<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'nuonic'</span>
+<p>This API exposes analytic classification tools and data for food items driven by natural language processing and our libraries of domain-specific reference data. </p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Nuonic</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'my-api-key'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">nuonic</span><span class="p">.</span><span class="nf">get</span>
-</code></pre>
-<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">nuonic</span>
+<h2 id="classifier">Classifier</h2>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">nuonic</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'my-api-key'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">nuonic</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"http://api.nuonic.com.au/kids_health/summary_by_location"</span>
-  -H <span class="s2">"Authorization: my-api-key"</span>
-</code></pre>
-<pre class="highlight javascript"><code><span class="kr">const</span> <span class="nx">nuonic</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'nuonic'</span><span class="p">);</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"x-api-key"</span><span class="p">:</span> <span class="s">"my-api-key"</span><span class="p">,</span>
+    <span class="s">"Content-Type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+<span class="p">}</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">nuonic</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'my-api-key'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">nuonic</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">nuonic</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://api.nuonic.com.au/food/v1/classifier?item=chobani</span><span class="si">%20</span><span class="s">YogUrt</span><span class="si">%20</span><span class="s">bluBerry</span><span class="si">%20170</span><span class="s">g</span><span class="si">%20</span><span class="s">and</span><span class="si">%20</span><span class="s">can</span><span class="si">%20</span><span class="s">of</span><span class="si">%20</span><span class="s">coca</span><span class="si">%20</span><span class="s">cola'</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.nuonic.com.au/food/v1/classifier?item=chobani%20YogUrt%20bluBerry%20170g%20and%20can%20of%20coca%20cola"</span>
+  -H <span class="s2">"x-api-key: my-api-key"</span> -H <span class="s2">"Content-Type: application/json"</span>
+</code></pre>
+<pre class="highlight javascript"><code></code></pre>
 
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"number_schools"</span><span class="p">:</span><span class="w"> </span><span class="mi">1103</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"number_students"</span><span class="p">:</span><span class="w"> </span><span class="mi">23847</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"number_orders"</span><span class="p">:</span><span class="w"> </span><span class="mi">25738</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"number_items"</span><span class="p">:</span><span class="w"> </span><span class="mi">104753</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"protein_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">19.23</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"carbohydrates_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">26.53</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"sugar_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">18.43</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"sodium_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.54</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"saturated_fat_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">23.26</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"unsaturated_fat_g"</span><span class="p">:</span><span class="w"> </span><span class="mf">16.34</span><span class="w">
+    </span><span class="nt">"item"</span><span class="p">:</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"original"</span><span class="p">:</span><span class="w"> </span><span class="s2">"chobani YogUrt bluBerry 170g and can of coca cola"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"components"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Chobani"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Brand"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Yogurt"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Text"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blu berry"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Text"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"170G"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Size"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"extra_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"grams"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"pieces"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"identified"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"millilitres"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"And"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Text"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"text"</span><span class="w"> </span><span class="p">:</span><span class="s2">"Can"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Size"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"extra_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Can"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"grams"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"pieces"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"identified"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"millilitres"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Of"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Text"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Coca Cola"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Brand"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"cleaned"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Chobani Yogurt Bluberry 170G And Can Of Coca Cola"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 
-<p>This endpoint returns a high-level nutrient consumption profile for a specified time period and location. The profile is an average across all students who transacted (purchased food items) in the period.</p>
+<p>This endpoint analyses an input text string describing a food item or a comination of items to perform the following functions:
+  - Identifying brand names
+  - Identifying item names
+  - Identifying and capturing size information
+  - Correct spelling</p>
+
+<p>The output is a list of classified components of the input text and a cleaned-up version of the text. This endpoint uses natural language processing methods and reference data matching to perform these tasks. It scans 1-3 gram sets.</p>
+
+<p>This endpoint was originally design to classify manually entered food items (eg Menu&rsquo;s) to provide cleaned, identified attributes against each item. It could also be used to provide lookup functionality as part of a live system.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">GET http://api.nuonic.com.au/kids_health/summary_by_location</code></p>
+<p><code class="prettyprint">GET https://api.nuonic.com.au/food/v1/classifier?item={description}</code></p>
+
+<aside class="notice">Replace {description} with a url-encoded text string describing your food item(s)</aside>
 
 <h3 id="query-parameters">Query Parameters</h3>
 
@@ -222,29 +282,9 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 </tr>
 </thead><tbody>
 <tr>
-<td>location_type</td>
-<td>country</td>
-<td>The type of location to aggregate to. One of (&lsquo;country&rsquo;, &#39;school&rsquo;, &#39;postcode&rsquo;, &#39;region&rsquo;, &#39;state&rsquo;).</td>
-</tr>
-<tr>
-<td>location_name</td>
-<td>Australia</td>
-<td>The location name as a string. For example one of (&#39;The Southport School&rsquo;, &#39;4215&rsquo;, &#39;South East Queensland&rsquo;, &#39;Queensland&rsquo;).</td>
-</tr>
-<tr>
-<td>time_period</td>
-<td>day</td>
-<td>The time period to aggregate over. One of (&#39;day&rsquo;, &#39;week&rsquo;, &#39;month&rsquo;, &#39;year&rsquo;).</td>
-</tr>
-<tr>
-<td>end_date</td>
-<td>yesterday&rsquo;s date</td>
-<td>The end date of the time period in the form &#39;yyyy-mm-dd&rsquo;.</td>
-</tr>
-<tr>
-<td>number_periods</td>
-<td>1</td>
-<td>The number of time periods to return results for, up to a maximum of 12.</td>
+<td>item</td>
+<td>None</td>
+<td>A text string of the food item(s) description(s) to be analysed</td>
 </tr>
 </tbody></table>
 
@@ -258,62 +298,413 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 </tr>
 </thead><tbody>
 <tr>
-<td>number_schools</td>
+<td>original</td>
+<td>String</td>
+<td>The input text string</td>
+</tr>
+<tr>
+<td>components</td>
+<td>String</td>
+<td>A list of components identified in the input text, listed in order of appearance, tagged with the type of component (eg &ldquo;Brand&rdquo;) and the cleaned text. Some tags also append additional descrptive data, as an object, such as Size (see example output in the pane of the right).</td>
+</tr>
+<tr>
+<td>cleaned</td>
+<td>String</td>
+<td>A cleaned-up version of the input string with spelling corrected, special characters removed and initial capital formatting</td>
+</tr>
+</tbody></table>
+
+<h1 id="demographics-api">Demographics API</h1>
+
+<p>This API exposes Australian population demographic data from the 2011 ABS Census that is processed and enhanced by Nuonic. The API provides access to the categories, attributes, location types and values for each geography level and unit for which data is available. </p>
+
+<h2 id="categories">Categories</h2>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"x-api-key"</span><span class="p">:</span> <span class="s">"my-api-key"</span><span class="p">,</span>
+    <span class="s">"Content-Type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://api.nuonic.com.au/demographics/v1/categories'</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.nuonic.com.au/demographics/v1/categories"</span>
+  -H <span class="s2">"x-api-key: my-api-key"</span> -H <span class="s2">"Content-Type: application/json"</span>
+</code></pre>
+<pre class="highlight javascript"><code></code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Selected Person Characteristics by Sex"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"number_of_attributes"</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Selected Medians and Averages"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"number_of_attributes"</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Place of Usual Residence on Census Night by Age"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"number_of_attributes"</span><span class="p">:</span><span class="w"> </span><span class="mi">19</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint provides a list of categories of demographic attributes that are available through this API. Use the ID number of one of these categories to filter on the other API endpoints.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://api.nuonic.com.au/demographics/v1/categories</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<p>None</p>
+
+<h3 id="response-fields">Response Fields</h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
 <td>Int</td>
-<td>The number of schools within the location that data is sourced from.</td>
+<td>Our ID number for the category</td>
 </tr>
 <tr>
-<td>number_students</td>
+<td>name</td>
+<td>String</td>
+<td>The name of the category</td>
+</tr>
+<tr>
+<td>number_of_attributes</td>
 <td>Int</td>
-<td>The number of students at the schools who transacted in the requested period.</td>
+<td>The number of demographic attributes available in this category</td>
 </tr>
+</tbody></table>
+
+<h2 id="attributes">Attributes</h2>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"x-api-key"</span><span class="p">:</span> <span class="s">"my-api-key"</span><span class="p">,</span>
+    <span class="s">"Content-Type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://api.nuonic.com.au/demographics/v1/attributes'</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.nuonic.com.au/demographics/v1/attributes"</span>
+  -H <span class="s2">"x-api-key: my-api-key"</span> -H <span class="s2">"Content-Type: application/json"</span>
+</code></pre>
+<pre class="highlight javascript"><code></code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Total_Persons_Males"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Total_Persons_Females"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Total_Persons_Persons"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint provides a list of demographic attributes for a specified category that are available through this API.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://api.nuonic.com.au/demographics/v1/attributes?category={id}</code></p>
+
+<aside class="notice">Replace {id} with a category ID number</aside>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
 <tr>
-<td>number_orders</td>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>category_id</td>
+<td>None</td>
+<td>The ID number of a category listed by the categories endpoint</td>
+</tr>
+</tbody></table>
+
+<h3 id="response-fields">Response Fields</h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
 <td>Int</td>
-<td>The number of meal orders by the students at the schools who transacted in the requested period.</td>
+<td>Our ID number for the attribute</td>
 </tr>
 <tr>
-<td>number_items</td>
-<td>Int</td>
-<td>The number of food items ordered by the students at the schools who transacted in the requested period.</td>
+<td>name</td>
+<td>String</td>
+<td>The name of the attribute</td>
+</tr>
+</tbody></table>
+
+<h1 id="schools-api">Schools API</h1>
+
+<h2 id="search">Search</h2>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'nuonic'</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="no">Nuonic</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'my-api-key'</span><span class="p">)</span>
+<span class="n">api</span><span class="p">.</span><span class="nf">nuonic</span><span class="p">.</span><span class="nf">get</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"x-api-key"</span><span class="p">:</span> <span class="s">"my-api-key"</span><span class="p">,</span>
+    <span class="s">"Content-Type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://api.nuonic.com.au/schools/v1/search?state=QLD&amp;suburb=mermaid</span><span class="si">%20</span><span class="s">waters&amp;name=merrimac</span><span class="si">%20</span><span class="s">high'</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.nuonic.com.au/schools/v1/search?state=QLD&amp;suburb=mermaid%20waters&amp;name=merrimac%20high"</span>
+  -H <span class="s2">"Authorization: my-api-key"</span> -H <span class="s2">"Content-Type: application/json"</span>
+</code></pre>
+<pre class="highlight javascript"><code><span class="kr">const</span> <span class="nx">nuonic</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'nuonic'</span><span class="p">);</span>
+
+<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">nuonic</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'my-api-key'</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">nuonic</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">nuonic</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"government_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1042</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id_name"</span><span class="p">:</span><span class="w"> </span><span class="mi">2973</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Merrimac State High School"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"level_of_schooling"</span><span class="p">:</span><span class="w"> </span><span class="s2">"State School"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"year_ranges"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Year 7 - 12"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Coed"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"sector"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Government"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"teaching_staff"</span><span class="p">:</span><span class="w"> </span><span class="mi">71</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"non_teaching_staff"</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"total_enrolments"</span><span class="p">:</span><span class="w"> </span><span class="mi">1076</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"phone_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">6155747745</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"fax_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">6155747745</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"info@merrimacshs.gov.au"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"www.merrimacshs.gov.au"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"electorate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Moncriff"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"federal_electorate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"federal_electorate"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dunlop Ct"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"suburb"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mermaid Waters"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QLD"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"postcode"</span><span class="p">:</span><span class="w"> </span><span class="mi">4218</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-28.039860999999998</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">153.417609999999996</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"year_evaluated"</span><span class="p">:</span><span class="w"> </span><span class="mi">2016</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint returns a school profile based on use search terms State, Suburb and Name. If there are multiple results the API will return the top 5 (this may be changed in the future). If Name is specified the API will find the item with the closest name to the input using natural language processing to resolve the components (eg State, High, Saint) and identify the best match in our database.</p>
+
+<p>Note that not all data attributes are available for all schools. Where an attribute is not available in our database it will not be returned in the results. </p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://api.nuonic.com.au/schools/v1/search?state={state}&amp;suburb={suburb}&amp;name={name}</code></p>
+
+<aside class="notice">Replace {state}, {suburb} and {name} with the State, Suburb and Name of the school you are looking for. Note that some of these parameters are optional</aside>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Optional</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>state</td>
+<td>Filter results for State. Must be the exact State name.</td>
+<td>True</td>
 </tr>
 <tr>
-<td>protein_g</td>
+<td>suburb</td>
+<td>Filter results for Suburb. Must be the exact Suburb name</td>
+<td>True</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Filter by school Name. Can be approximate. The API will find the nearest match to your input text</td>
+<td>True</td>
+</tr>
+</tbody></table>
+
+<h3 id="response-fields">Response Fields</h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>government_id</td>
+<td>String</td>
+<td>The local government/private issued identication number</td>
+</tr>
+<tr>
+<td>id_name</td>
+<td>Integer</td>
+<td>Identifies the name of the identication provider</td>
+</tr>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>The schools name</td>
+</tr>
+<tr>
+<td>level_of_schooling</td>
+<td>String</td>
+<td>Highest level of schooling year</td>
+</tr>
+<tr>
+<td>year_ranges</td>
+<td>String</td>
+<td>What year range a school has</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>String</td>
+<td>States the gender of each school</td>
+</tr>
+<tr>
+<td>sector</td>
+<td>String</td>
+<td>Identifies the school sector as public or private</td>
+</tr>
+<tr>
+<td>teaching_staff</td>
+<td>Integer</td>
+<td>Total amount of teaching staff at each school</td>
+</tr>
+<tr>
+<td>non_teaching_staff</td>
+<td>Integer</td>
+<td>Total amount of non-teaching staff at each school</td>
+</tr>
+<tr>
+<td>total_enrolments</td>
+<td>Integer</td>
+<td>Total amount of enrolled students at each school</td>
+</tr>
+<tr>
+<td>phone_number</td>
+<td>String</td>
+<td>The schools phones number</td>
+</tr>
+<tr>
+<td>fax_number</td>
+<td>String</td>
+<td>The schools fax number</td>
+</tr>
+<tr>
+<td>email</td>
+<td>String</td>
+<td>The schools email address</td>
+</tr>
+<tr>
+<td>url</td>
+<td>String</td>
+<td>The schools website</td>
+</tr>
+<tr>
+<td>electorate</td>
+<td>String</td>
+<td>The local electorate</td>
+</tr>
+<tr>
+<td>federal_electorate</td>
+<td>String</td>
+<td>The federal electorate</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>The schools address</td>
+</tr>
+<tr>
+<td>suburb</td>
+<td>String</td>
+<td>The schools suburb</td>
+</tr>
+<tr>
+<td>state</td>
+<td>String</td>
+<td>The schools state</td>
+</tr>
+<tr>
+<td>postcode</td>
+<td>Integer</td>
+<td>The schools post-code</td>
+</tr>
+<tr>
+<td>latitude</td>
 <td>Float</td>
-<td>The average amount of protein consumed by all students in the specified subset in g.</td>
+<td>Latitude position of the school</td>
 </tr>
 <tr>
-<td>carbohydrates_g</td>
+<td>longitude</td>
 <td>Float</td>
-<td>The average amount of carbohydrates consumed by all students in the specified subset in g.</td>
+<td>Longitude position of the school</td>
 </tr>
 <tr>
-<td>sugar_g</td>
-<td>Float</td>
-<td>The average amount of sugar consumed by all students in the specified subset in g.</td>
-</tr>
-<tr>
-<td>sodium_g</td>
-<td>Float</td>
-<td>The average amount of sodium (salt) consumed by all students in the specified subset in g.</td>
-</tr>
-<tr>
-<td>saturated_fat_g</td>
-<td>Float</td>
-<td>The average amount of saturated fat consumed by all students in the specified subset in g.</td>
-</tr>
-<tr>
-<td>unsaturated_fat_g</td>
-<td>Float</td>
-<td>The average amount of unsaturated fat consumed by all students in the specified subset in g.</td>
+<td>year_evaluated:</td>
+<td>DateTime</td>
+<td>Government year evaluation of the schools</td>
 </tr>
 </tbody></table>
 
           <h1 id="errors">Errors</h1>
 
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files&hellip;just save them to the `includes` folder and add them to the top of your `index.md`&rsquo;s frontmatter. Files are included in the order listed.</aside>
-
-<p>The Kittn API uses the following error codes:</p>
+<p>Nuonic APIs use the following error codes:</p>
 
 <table><thead>
 <tr>
@@ -323,7 +714,7 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 </thead><tbody>
 <tr>
 <td>400</td>
-<td>Bad Request &ndash; Your request sucks</td>
+<td>Bad Request &ndash; Your request is not valid</td>
 </tr>
 <tr>
 <td>401</td>
@@ -331,31 +722,19 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 </tr>
 <tr>
 <td>403</td>
-<td>Forbidden &ndash; The kitten requested is hidden for administrators only</td>
+<td>Forbidden &ndash; You are not authorized to access this resource</td>
 </tr>
 <tr>
 <td>404</td>
-<td>Not Found &ndash; The specified kitten could not be found</td>
+<td>Not Found &ndash; The specified resource could not be found</td>
 </tr>
 <tr>
 <td>405</td>
-<td>Method Not Allowed &ndash; You tried to access a kitten with an invalid method</td>
+<td>Method Not Allowed &ndash; You tried to access a resource with an invalid method</td>
 </tr>
 <tr>
 <td>406</td>
 <td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone &ndash; The kitten requested has been removed from our servers</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&rsquo;m a teapot</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests &ndash; You&rsquo;re requesting too many kittens! Slow down!</td>
 </tr>
 <tr>
 <td>500</td>
