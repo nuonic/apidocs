@@ -8,7 +8,7 @@ language_tabs:
   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Nuonic account</a>
+  - <a href='https://www.nuonic.com.au/contact/'>Access our APIs</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -19,11 +19,9 @@ search: true
 
 # Introduction
 
-Welcome to the Kids Health API! You can use our API to access Kids Health API endpoints which provide the latest data on a range of consumption and health metrics for primary school age children across Australia.
+Welcome Nuonic's API documentation. You can use our REST APIs to access Nuonic data and analytic services. Please visit our [website](https://www.nuonic.com.au) or [contact us](https://www.nuonic.com.au/contact) to learn more about our products and pricing.
 
-We have language bindings in Shell, Ruby, C#, Java, Javascript and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This API documentation page was created with [Slate](https://github.com/tripit/slate). Thanks to Robert Lord for creating this awesome tool.
+You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 # Authentication
 
@@ -56,44 +54,43 @@ let api = nuonic.authorize('my-api-key');
 
 > Make sure to replace `my-api-key` with your API key.
 
-Nuonic APIs use JWT API keys to allow access to the API. You can obtain a Nuonic API key by [signing up ](http://www.nuonic.com.au/signup) for a Nuonic account.
+Nuonic APIs use API keys provided to customers to allow access to the API. 
 
-Nuonic expects for the API key to be included in all API requests to the server in a header that looks like the following:
+The API key must be included in all API requests to the server in a header that looks like this:
 
-`Authorization: my-api-key`
+`x-api-key: my-api-key`
 
 <aside class="notice">
 Replace <code>my-api-key</code> with your Nuonic API key.
 </aside>
 
-# Nutrient Profile API
+# Demographics API
 
-## Summary by location
+This API exposes Australian population demographic data from the 2011 ABS Census that is processed and enhanced by Nuonic. The API provides access to the categories, attributes, location types and values for each geography level and unit for which data is available. 
 
-```ruby
-require 'nuonic'
-
-api = Nuonic::APIClient.authorize!('my-api-key')
-api.nuonic.get
-```
+## Categories
 
 ```python
-import nuonic
+import requests
 
-api = nuonic.authorize('my-api-key')
-api.nuonic.get()
+headers = {
+    "x-api-key": "my-api-key",
+    "Content-Type": "application/json",
+}
+
+url = 'https://api.nuonic.com.au/demographics/v1/categories'
+
+r = requests.get(url=url, headers=headers)
+
+print(r.json())
 ```
 
 ```shell
-curl "http://api.nuonic.com.au/kids_health/summary_by_location"
-  -H "Authorization: my-api-key"
+curl "https://api.nuonic.com.au/demographics/v1/categories"
+  -H "x-api-key: my-api-key" -H "Content-Type: application/json"
 ```
 
 ```javascript
-const nuonic = require('nuonic');
-
-let api = nuonic.authorize('my-api-key');
-let nuonic = api.nuonic.get();
 ```
 
 > The above command returns JSON structured like this:
@@ -101,47 +98,100 @@ let nuonic = api.nuonic.get();
 ```json
 [
   {
-    "number_schools": 1103,
-    "number_students": 23847,
-    "number_orders": 25738,
-    "number_items": 104753,
-    "protein_g": 19.23,
-    "carbohydrates_g": 26.53,
-    "sugar_g": 18.43,
-    "sodium_g": 4.54,
-    "saturated_fat_g": 23.26,
-    "unsaturated_fat_g": 16.34
+    "id": 1,
+    "name": "Selected Person Characteristics by Sex",
+    "number_of_attributes": 23
+  },
+  {
+    "id": 2,
+    "name": "Selected Medians and Averages",
+    "number_of_attributes": 14
+  },
+  {
+    "id": 3,
+    "name": "Place of Usual Residence on Census Night by Age",
+    "number_of_attributes": 19
   }
 ]
 ```
 
-This endpoint returns a high-level nutrient consumption profile for a specified time period and location. The profile is an average across all students who transacted (purchased food items) in the period.
+This endpoint provides a list of categories of demographic attributes that are available through this API. Use the ID number of one of these categories to filter on the other API endpoints.
 
 ### HTTP Request
 
-`GET http://api.nuonic.com.au/kids_health/summary_by_location`
+`GET https://api.nuonic.com.au/demographics/v1/categories`
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-location_type | country| The type of location to aggregate to. One of ('country', 'school', 'postcode', 'region', 'state').
-location_name | Australia | The location name as a string. For example one of ('The Southport School', '4215', 'South East Queensland', 'Queensland').
-time_period | day | The time period to aggregate over. One of ('day', 'week', 'month', 'year').
-end_date | yesterday's date | The end date of the time period in the form 'yyyy-mm-dd'.
-number_periods | 1 | The number of time periods to return results for, up to a maximum of 12.
+None
 
 ### Response Fields
 
 Field | Type | Description
 --------- | ------- | -----------
-number_schools | Int | The number of schools within the location that data is sourced from.
-number_students | Int | The number of students at the schools who transacted in the requested period.
-number_orders | Int | The number of meal orders by the students at the schools who transacted in the requested period.
-number_items | Int | The number of food items ordered by the students at the schools who transacted in the requested period.
-protein_g | Float | The average amount of protein consumed by all students in the specified subset in g.
-carbohydrates_g | Float | The average amount of carbohydrates consumed by all students in the specified subset in g.
-sugar_g | Float | The average amount of sugar consumed by all students in the specified subset in g.
-sodium_g | Float | The average amount of sodium (salt) consumed by all students in the specified subset in g.
-saturated_fat_g | Float | The average amount of saturated fat consumed by all students in the specified subset in g.
-unsaturated_fat_g | Float | The average amount of unsaturated fat consumed by all students in the specified subset in g.
+id | Int | Our ID number for the category
+name | String | The name of the category
+number_of_attributes | Int | The number of demographic attributes available in this category
+
+## Attributes
+
+```python
+import requests
+
+headers = {
+    "x-api-key": "my-api-key",
+    "Content-Type": "application/json",
+}
+
+url = 'https://api.nuonic.com.au/demographics/v1/attributes'
+
+r = requests.get(url=url, headers=headers)
+
+print(r.json())
+```
+
+```shell
+curl "https://api.nuonic.com.au/demographics/v1/attributes"
+  -H "x-api-key: my-api-key" -H "Content-Type: application/json"
+```
+
+```javascript
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Total_Persons_Males"
+  },
+  {
+    "id": 2,
+    "name": "Total_Persons_Females"
+  },
+  {
+    "id": 3,
+    "name": "Total_Persons_Persons"
+  }
+]
+```
+
+This endpoint provides a list of demographic attributes for a specified category that are available through this API.
+
+### HTTP Request
+
+`GET https://api.nuonic.com.au/demographics/v1/attributes?category=1`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+category_id | None | The ID number of a category listed by the categories endpoint
+
+### Response Fields
+
+Field | Type | Description
+--------- | ------- | -----------
+id | Int | Our ID number for the attribute
+name | String | The name of the attribute
