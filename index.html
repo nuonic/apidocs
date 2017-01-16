@@ -340,23 +340,23 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Selected Person Characteristics by Sex"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"number_of_attributes"</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Selected Medians and Averages"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"number_of_attributes"</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Place of Usual Residence on Census Night by Age"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"number_of_attributes"</span><span class="p">:</span><span class="w"> </span><span class="mi">19</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+  </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Selected Person Characteristics by Sex"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Selected Medians and Averages"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Place of Usual Residence on Census Night by Age"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <p>This endpoint provides a list of categories of demographic attributes that are available through this API. Use the ID number of one of these categories to filter on the other API endpoints.</p>
@@ -369,7 +369,7 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 
 <p>None</p>
 
-<h3 id="response-fields">Response Fields</h3>
+<h3 id="response-fields-for-result-object">Response Fields for Result Object</h3>
 
 <table><thead>
 <tr>
@@ -388,11 +388,6 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 <td>String</td>
 <td>The name of the category</td>
 </tr>
-<tr>
-<td>number_of_attributes</td>
-<td>Int</td>
-<td>The number of demographic attributes available in this category</td>
-</tr>
 </tbody></table>
 
 <h2 id="attributes">Attributes</h2>
@@ -403,13 +398,13 @@ Replace <code>my-api-key</code> with your Nuonic API key.
     <span class="s">"Content-Type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="n">url</span> <span class="o">=</span> <span class="s">'https://api.nuonic.com.au/demographics/v1/attributes'</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://api.nuonic.com.au/demographics/v1/attributes?category=1'</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 
 <span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </code></pre>
-<pre class="highlight shell"><code>curl <span class="s2">"https://api.nuonic.com.au/demographics/v1/attributes"</span>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.nuonic.com.au/demographics/v1/attributes?category=1"</span>
   -H <span class="s2">"x-api-key: my-api-key"</span> -H <span class="s2">"Content-Type: application/json"</span>
 </code></pre>
 <pre class="highlight javascript"><code></code></pre>
@@ -417,20 +412,25 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Total_Persons_Males"</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Total_Persons_Females"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Total_Persons_Persons"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+  </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">126</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Median_age_of_persons"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">127</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Median_mortgage_repayment_monthly"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">128</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Median_total_personal_income_weekly"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <p>This endpoint provides a list of demographic attributes for a specified category that are available through this API.</p>
@@ -457,7 +457,7 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 </tr>
 </tbody></table>
 
-<h3 id="response-fields">Response Fields</h3>
+<h3 id="response-fields-for-result-object">Response Fields for Result Object</h3>
 
 <table><thead>
 <tr>
@@ -475,6 +475,126 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 <td>name</td>
 <td>String</td>
 <td>The name of the attribute</td>
+</tr>
+</tbody></table>
+
+<h2 id="values">Values</h2>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"x-api-key"</span><span class="p">:</span> <span class="s">"my-api-key"</span><span class="p">,</span>
+    <span class="s">"Content-Type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://api.nuonic.com.au/demographics/v1/values?geography_type=post_code&amp;geography_name=4215&amp;category=2'</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.nuonic.com.au/demographics/v1/values?geography_type=post_code&amp;geography_name=4215&amp;category=2"</span>
+  -H <span class="s2">"x-api-key: my-api-key"</span> -H <span class="s2">"Content-Type: application/json"</span>
+</code></pre>
+<pre class="highlight javascript"><code></code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"geography_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4215"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"category"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"geography_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"post_code"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Selected Medians and Averages"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"units"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"attribute_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Median_age_of_persons"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">37.0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Selected Medians and Averages"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"units"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"attribute_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Median_mortgage_repayment_monthly"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">1733.0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Selected Medians and Averages"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"units"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"attribute_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Median_total_personal_income_weekly"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="mf">478.0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint provides a list of values for demographic attributes. It requires the user to specify a geography type, geography name (unit) and a category. It returns the original query parameters and a results object which contains the values for the selected attributes.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://api.nuonic.com.au/demographics/v1/values?geography_type={post_code}&amp;geography_name={4215}&amp;category={2}</code></p>
+
+<aside class="notice">Replace {id} with a category ID number</aside>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>geography_type</td>
+<td>True</td>
+<td>None</td>
+<td>The type of geography (level) to filter by. Current options are &lsquo;post_code&rsquo;, &#39;suburb&rsquo;, &#39;lga&rsquo; (Local Government Area) and &#39;sed&rsquo; (State Electoral Division).</td>
+</tr>
+<tr>
+<td>geography_name</td>
+<td>True</td>
+<td>None</td>
+<td>The name of the geography unit to filter by. For example, if a geography_type of &#39;post_code&rsquo; is specified, then a suburb name, such as &#39;Southport&rsquo;, is valid. Available inputs will be accessible through the soon-to-come locations endpoint</td>
+</tr>
+<tr>
+<td>category_id</td>
+<td>True</td>
+<td>None</td>
+<td>The ID number of a category listed by the categories endpoint</td>
+</tr>
+</tbody></table>
+
+<h3 id="response-fields-for-result-object">Response Fields for Result Object</h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>category</td>
+<td>Int</td>
+<td>Our ID number for the category of this attribute</td>
+</tr>
+<tr>
+<td>units</td>
+<td>String</td>
+<td>The units this attribute is measured in. None if not applicable</td>
+</tr>
+<tr>
+<td>attribute_name</td>
+<td>String</td>
+<td>The name of the attribute</td>
+</tr>
+<tr>
+<td>value</td>
+<td>Float</td>
+<td>The value of this attribute for the specified filter parameters</td>
 </tr>
 </tbody></table>
 
@@ -698,7 +818,7 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 <tr>
 <td>year_evaluated:</td>
 <td>DateTime</td>
-<td>Government year evaluation of the schools</td>
+<td>The year that this data was captured</td>
 </tr>
 </tbody></table>
 
@@ -733,16 +853,8 @@ Replace <code>my-api-key</code> with your Nuonic API key.
 <td>Method Not Allowed &ndash; You tried to access a resource with an invalid method</td>
 </tr>
 <tr>
-<td>406</td>
-<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
-</tr>
-<tr>
 <td>500</td>
 <td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
 </tr>
 </tbody></table>
 
