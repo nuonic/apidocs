@@ -637,8 +637,8 @@ Replace <code>my-api-key</code> with your Nuonic API key.
     </span><span class="nt">"suburb"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mermaid Waters"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QLD"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="err">[</span><span class="w">
-    </span><span class="err">{</span><span class="w">
+  </span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
       </span><span class="nt">"government_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1042</span><span class="p">,</span><span class="w">
       </span><span class="nt">"id_name"</span><span class="p">:</span><span class="w"> </span><span class="mi">2973</span><span class="p">,</span><span class="w">
       </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Merrimac State High School"</span><span class="p">,</span><span class="w">
@@ -663,8 +663,8 @@ Replace <code>my-api-key</code> with your Nuonic API key.
       </span><span class="nt">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">153.417609999999996</span><span class="p">,</span><span class="w">
       </span><span class="nt">"year_evaluated"</span><span class="p">:</span><span class="w"> </span><span class="mi">2016</span><span class="w">
     </span><span class="p">}</span><span class="w">
-  </span><span class="err">]</span><span class="w">
-</span><span class="err">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <p>This endpoint returns a school profile based on use search terms State, Suburb and Name. If there are multiple results the API will return the top 5 (this may be changed in the future). If Name is specified the API will find the item with the closest name to the input using natural language processing to resolve the components (eg State, High, Saint) and identify the best match in our database.</p>
