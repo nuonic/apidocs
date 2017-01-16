@@ -460,7 +460,7 @@ let nuonic = api.nuonic.get();
     "suburb": "Mermaid Waters",
     "state": "QLD"
   },
-  [
+  "result": [
     {
       "government_id": 1042,
       "id_name": 2973,
