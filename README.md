@@ -28,4 +28,4 @@ You can now see the docs at http://localhost:4567. Whoa! That was fast!
 ### Deploying changes
 
 1. Merge your branch into `master`
-2. `./deploy`
+2. `./deploy.sh`
