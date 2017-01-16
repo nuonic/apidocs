@@ -225,23 +225,23 @@ curl "https://api.nuonic.com.au/demographics/v1/categories"
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Selected Person Characteristics by Sex",
-    "number_of_attributes": 23
-  },
-  {
-    "id": 2,
-    "name": "Selected Medians and Averages",
-    "number_of_attributes": 14
-  },
-  {
-    "id": 3,
-    "name": "Place of Usual Residence on Census Night by Age",
-    "number_of_attributes": 19
-  }
-]
+{
+  "query": {},
+  "result": [
+    {
+      "id": 1,
+      "name": "Selected Person Characteristics by Sex"
+    },
+    {
+      "id": 2,
+      "name": "Selected Medians and Averages"
+    },
+    {
+      "id": 3,
+      "name": "Place of Usual Residence on Census Night by Age"
+    }
+  ]
+}
 ```
 
 This endpoint provides a list of categories of demographic attributes that are available through this API. Use the ID number of one of these categories to filter on the other API endpoints.
@@ -254,13 +254,12 @@ This endpoint provides a list of categories of demographic attributes that are a
 
 None
 
-### Response Fields
+### Response Fields for Result Object
 
 Field | Type | Description
 --------- | ------- | -----------
 id | Int | Our ID number for the category
 name | String | The name of the category
-number_of_attributes | Int | The number of demographic attributes available in this category
 
 ## Attributes
 
@@ -272,7 +271,7 @@ headers = {
     "Content-Type": "application/json",
 }
 
-url = 'https://api.nuonic.com.au/demographics/v1/attributes'
+url = 'https://api.nuonic.com.au/demographics/v1/attributes?category=1'
 
 r = requests.get(url=url, headers=headers)
 
@@ -280,7 +279,7 @@ print(r.json())
 ```
 
 ```shell
-curl "https://api.nuonic.com.au/demographics/v1/attributes"
+curl "https://api.nuonic.com.au/demographics/v1/attributes?category=1"
   -H "x-api-key: my-api-key" -H "Content-Type: application/json"
 ```
 
@@ -290,20 +289,25 @@ curl "https://api.nuonic.com.au/demographics/v1/attributes"
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Total_Persons_Males"
+{
+  "query": {
+    "category": "2"
   },
-  {
-    "id": 2,
-    "name": "Total_Persons_Females"
-  },
-  {
-    "id": 3,
-    "name": "Total_Persons_Persons"
-  }
-]
+  "result": [
+    {
+      "id": 126,
+      "name": "Median_age_of_persons"
+    },
+    {
+      "id": 127,
+      "name": "Median_mortgage_repayment_monthly"
+    },
+    {
+      "id": 128,
+      "name": "Median_total_personal_income_weekly"
+    }
+  ]
+}
 ```
 
 This endpoint provides a list of demographic attributes for a specified category that are available through this API.
@@ -320,12 +324,94 @@ Parameter | Default | Description
 --------- | ------- | -----------
 category_id | None | The ID number of a category listed by the categories endpoint
 
-### Response Fields
+### Response Fields for Result Object
 
 Field | Type | Description
 --------- | ------- | -----------
 id | Int | Our ID number for the attribute
 name | String | The name of the attribute
+
+## Values
+
+```python
+import requests
+
+headers = {
+    "x-api-key": "my-api-key",
+    "Content-Type": "application/json",
+}
+
+url = 'https://api.nuonic.com.au/demographics/v1/values?geography_type=post_code&geography_name=4215&category=2'
+
+r = requests.get(url=url, headers=headers)
+
+print(r.json())
+```
+
+```shell
+curl "https://api.nuonic.com.au/demographics/v1/values?geography_type=post_code&geography_name=4215&category=2"
+  -H "x-api-key: my-api-key" -H "Content-Type: application/json"
+```
+
+```javascript
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "query": {
+    "geography_name": "4215",
+    "category": 2,
+    "geography_type": "post_code"
+  },
+  "result": [
+    {
+      "category": "Selected Medians and Averages",
+      "units": "",
+      "attribute_name": "Median_age_of_persons",
+      "value": 37.0
+    },
+    {
+      "category": "Selected Medians and Averages",
+      "units": "",
+      "attribute_name": "Median_mortgage_repayment_monthly",
+      "value": 1733.0
+    },
+    {
+      "category": "Selected Medians and Averages",
+      "units": "",
+      "attribute_name": "Median_total_personal_income_weekly",
+      "value": 478.0
+    }
+  ]
+}
+```
+
+This endpoint provides a list of values for demographic attributes. It requires the user to specify a geography type, geography name (unit) and a category. It returns the original query parameters and a results object which contains the values for the selected attributes.
+
+### HTTP Request
+
+`GET https://api.nuonic.com.au/demographics/v1/values?geography_type={post_code}&geography_name={4215}&category={2}`
+
+<aside class="notice">Replace {id} with a category ID number</aside>
+
+### Query Parameters
+
+Parameter | Required | Default | Description
+--------- | -------- | ------- | -----------
+geography_type | True | None | The type of geography (level) to filter by. Current options are 'post_code', 'suburb', 'lga' (Local Government Area) and 'sed' (State Electoral Division).
+geography_name | True | None | The name of the geography unit to filter by. For example, if a geography_type of 'post_code' is specified, then a suburb name, such as 'Southport', is valid. Available inputs will be accessible through the soon-to-come locations endpoint
+category_id | True | None | The ID number of a category listed by the categories endpoint
+
+### Response Fields for Result Object
+
+Field | Type | Description
+--------- | ------- | -----------
+category | Int | Our ID number for the category of this attribute
+units | String | The units this attribute is measured in. None if not applicable
+attribute_name | String | The name of the attribute
+value | Float | The value of this attribute for the specified filter parameters
 
 # Schools API
 
@@ -441,4 +527,4 @@ state              | String  | The schools state
 postcode           | Integer | The schools post-code
 latitude           | Float   | Latitude position of the school
 longitude          | Float   | Longitude position of the school
-year_evaluated:    | DateTime| Government year evaluation of the schools
+year_evaluated:    | DateTime| The year that this data was captured
