@@ -454,33 +454,40 @@ let nuonic = api.nuonic.get();
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "government_id": 1042,
-    "id_name": 2973,
-    "name": "Merrimac State High School",
-    "level_of_schooling": "State School",
-    "year_ranges": "Year 7 - 12",
-    "gender": "Coed",
-    "sector": "Government",
-    "teaching_staff": 71,
-    "non_teaching_staff": 24,
-    "total_enrolments": 1076,
-    "phone_number": 6155747745,
-    "fax_number": 6155747745,
-    "email": "info@merrimacshs.gov.au",
-    "url": "www.merrimacshs.gov.au",
-    "electorate": "Moncriff",
-    "federal_electorate": "federal_electorate",
-    "address": "Dunlop Ct",
+{
+  "query": {
+    "limit": "5",
     "suburb": "Mermaid Waters",
-    "state": "QLD",
-    "postcode": 4218,
-    "latitude": -28.039860999999998,
-    "longitude": 153.417609999999996,
-    "year_evaluated": 2016
-  }
-]
+    "state": "QLD"
+  },
+  [
+    {
+      "government_id": 1042,
+      "id_name": 2973,
+      "name": "Merrimac State High School",
+      "level_of_schooling": "State School",
+      "year_ranges": "Year 7 - 12",
+      "gender": "Coed",
+      "sector": "Government",
+      "teaching_staff": 71,
+      "non_teaching_staff": 24,
+      "total_enrolments": 1076,
+      "phone_number": 6155747745,
+      "fax_number": 6155747745,
+      "email": "info@merrimacshs.gov.au",
+      "url": "www.merrimacshs.gov.au",
+      "electorate": "Moncriff",
+      "federal_electorate": "federal_electorate",
+      "address": "Dunlop Ct",
+      "suburb": "Mermaid Waters",
+      "state": "QLD",
+      "postcode": 4218,
+      "latitude": -28.039860999999998,
+      "longitude": 153.417609999999996,
+      "year_evaluated": 2016
+    }
+  ]
+}
 ```
 
 This endpoint returns a school profile based on use search terms State, Suburb and Name. If there are multiple results the API will return the top 5 (this may be changed in the future). If Name is specified the API will find the item with the closest name to the input using natural language processing to resolve the components (eg State, High, Saint) and identify the best match in our database.
@@ -495,13 +502,16 @@ Note that not all data attributes are available for all schools. Where an attrib
 
 ### Query Parameters
 
-Parameter | Description | Optional
---------- | ----------- | --------
-state   | Filter results for State. Must be the exact State name. | True
-suburb  | Filter results for Suburb. Must be the exact Suburb name | True
-name    | Filter by school Name. Can be approximate. The API will find the nearest match to your input text | True
+Parameter | Description | Optional | Default
+--------- | ----------- | -------- | --------
+state   | Filter results for State. Must be the exact State name. | True | True
+suburb  | Filter results for Suburb. Must be the exact Suburb name. | True | True
+limit  | The number of results to return. Maximum is 100. | True | 100
 
-### Response Fields
+<!-- name    | Filter by school Name. Can be approximate. The API will find the nearest match to your input text | True
+ -->
+
+### Response Fields for Result Object
 
 Field | Type | Description
 --------- | ------- | -----------
